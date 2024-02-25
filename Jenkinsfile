@@ -23,7 +23,7 @@ pipeline {
                 // Connectez-vous à DockerHub (assurez-vous que les informations d'authentification sont configurées dans Jenkins)
                 withDockerRegistry([credentialsId: 'PipelineID', url: 'https://registry.hub.docker.com']) {
                     // Poussez l'image vers DockerHub
-                    sh 'docker monapp:tag'
+                    sh 'docker push mariemksontini/monapp:${env.BUILD_ID}'
                 }
             }
         }
