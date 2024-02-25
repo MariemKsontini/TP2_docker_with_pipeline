@@ -13,7 +13,7 @@ pipeline {
             steps {
                 // Utilisez un fichier Dockerfile existant pour construire l'image
                 script {
-                def dockerImage = docker.build("mariemksontini/monapp:latest", ".")                
+                def dockerImage = docker.build("mariemksontini/monapp", ".")                
                 }
             }
         }
