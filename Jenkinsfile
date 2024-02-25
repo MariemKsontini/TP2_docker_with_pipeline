@@ -1,29 +1,36 @@
 pipeline {
     agent any
 
+    tools {
+        // Ensure Maven is configured in Jenkins global tool configuration
+        maven 'Maven' // The name of the Maven installation to use
+    }
+
     stages {
         stage('Pull github code') {
             steps {
-                // Clonez le dépôt GitHub contenant le code de votre application Maven Spring Boot
-                git url: 'https://github.com/MariemKsontini/TP2_docker_with_pipeline'
+                git branch: 'main', url: 'https://github.com/MariemKsontini/TP2_docker_with_pipeline'
+            }
+        }
+        
+        stage('Build application') {
+            steps {
+                // Run Maven package to compile the code and package it into a .jar file
+                sh 'mvn clean package'
             }
         }
 
         stage('Create a docker image of the project') {
             steps {
-                // Utilisez un fichier Dockerfile existant pour construire l'image
                 script {
-                def dockerImage = docker.build("mariemksontini/monapp", ".")                
+                    def dockerImage = docker.build('mariemksontini/monapp:latest', '.')
                 }
             }
         }
 
-
         stage('Push of the image') {
             steps {
-                // Connectez-vous à DockerHub (assurez-vous que les informations d'authentification sont configurées dans Jenkins)
                 withDockerRegistry([credentialsId: 'PipelineID', url: 'https://registry.hub.docker.com']) {
-                    // Poussez l'image vers DockerHub
                     sh 'docker push mariemksontini/monapp:latest'
                 }
             }
