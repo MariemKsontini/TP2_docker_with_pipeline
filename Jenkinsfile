@@ -36,7 +36,7 @@ pipeline {
 
         stage('Push of the image') {
             steps {
-                withDockerRegistry([credentialsId: 'pipelineid', url: 'https://registry.hub.docker.com']) {
+                withDockerRegistry([credentialsId: 'pipelineid', url: 'https://index.docker.io/v1/']) {
                     sh 'docker push mariemksontini/monapp:latest'
                 }
             }
