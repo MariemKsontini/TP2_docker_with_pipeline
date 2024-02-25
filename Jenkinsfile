@@ -20,6 +20,12 @@ pipeline {
             }
         }
 
+        stage('Confirm Build Artifact') {
+            steps {
+                 sh 'ls -l target/'
+            }
+        }
+
         stage('Create a docker image of the project') {
             steps {
                 script {
