@@ -13,17 +13,18 @@ pipeline {
             steps {
                 // Utilisez un fichier Dockerfile existant pour construire l'image
                 script {
-                    def dockerImage = docker.build('monapp', '-f . .')
+                def dockerImage = docker.build("mariemksontini/monapp:latest", ".")                
                 }
             }
         }
+
 
         stage('Push of the image') {
             steps {
                 // Connectez-vous à DockerHub (assurez-vous que les informations d'authentification sont configurées dans Jenkins)
                 withDockerRegistry([credentialsId: 'PipelineID', url: 'https://registry.hub.docker.com']) {
                     // Poussez l'image vers DockerHub
-                    sh 'docker push mariemksontini/monapp:${env.BUILD_ID}'
+                    sh 'docker push mariemksontini/monapp:latest'
                 }
             }
         }
